@@ -24,12 +24,11 @@ Avaliação de simetria, concentração e presença de outliers nos gastos mensa
 Visualização do total de clientes por método de pagamento.
 
 4. Qual o perfil dos clientes?
-Análise da distribuição das variáveis:
-
-Gênero \n
-Presença de parceiro\n
-Senioridade (cliente idoso ou não)\n
-Presença de dependentes\n
+- Análise da distribuição das variáveis:
+  - Gênero
+  - Presença de parceiro
+  - Senioridade (cliente idoso ou não)
+  - Presença de dependentes
 
 5. Como os gastos mensais variam entre clientes que deram churn e os que não deram?
 Comparação da distribuição de gastos com foco em diferenças entre os grupos.
