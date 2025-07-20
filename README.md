@@ -1,6 +1,6 @@
 # Análise de churn de clientes
 
-Este projeto de data science tem como objetivo analisar o comportamento dos clientes de uma empresa de telecomunicações e prever quais deles têm maior propensão a cancelar os serviços contratados (churn).
+Este projeto tem como objetivo analisar o comportamento dos clientes de uma empresa de telecomunicações e prever quais deles têm maior propensão a cancelar os serviços contratados (churn).
 
 ## Sobre o Projeto
 - Objetivo: Desenvolver uma análise exploratória aprofundada e construir um modelo preditivo para identificar clientes com maior probabilidade de churn.
@@ -26,10 +26,10 @@ Visualização do total de clientes por método de pagamento.
 4. Qual o perfil dos clientes?
 Análise da distribuição das variáveis:
 
-Gênero
-Presença de parceiro
-Senioridade (cliente idoso ou não)
-Presença de dependentes
+Gênero \n
+Presença de parceiro\n
+Senioridade (cliente idoso ou não)\n
+Presença de dependentes\n
 
 5. Como os gastos mensais variam entre clientes que deram churn e os que não deram?
 Comparação da distribuição de gastos com foco em diferenças entre os grupos.
