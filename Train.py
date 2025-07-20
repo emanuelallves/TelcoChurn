@@ -123,8 +123,8 @@ param_grid_rf = {
 
 recall_yes = make_scorer(recall_score, pos_label='Yes')
 
-grid_search = GridSearchCV(imb_pipe_svc,
-                           param_grid_svc,
+grid_search = GridSearchCV(imb_pipe_rf,
+                           param_grid_rf,
                            cv=5,
                            scoring=recall_yes,
                            n_jobs=-1)
