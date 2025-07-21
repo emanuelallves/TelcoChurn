@@ -44,9 +44,6 @@ print(f'X_test shape: {X_test.shape}\ny_test shape: {y_test.shape}\n')
 print(f'X_val shape: {X_val.shape}\ny_val shape: {y_val.shape}\n')
 
 # %%
-df.info()
-
-# %%
 numerical_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
 categorical_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
         'PhoneService', 'MultipleLines', 'InternetService',
@@ -132,11 +129,30 @@ grid_search = GridSearchCV(imb_pipe_rf,
 grid_search.fit(X_train, y_train)
 
 # %%
-y_pred = grid_search.predict(X_test)
+y_pred_val = grid_search.predict(X_val)
 
-print(classification_report(y_test, y_pred))
+print(classification_report(y_val, y_pred_val))
 
-cm = confusion_matrix(y_test, y_pred, labels=['No', 'Yes'])
+cm = confusion_matrix(y_val, y_pred_val, labels=['No', 'Yes'])
+
+sns.heatmap(cm, annot=True, fmt='d',
+            xticklabels=['No', 'Yes'],
+            yticklabels=['No', 'Yes'],
+            cmap='Blues')
+plt.xlabel('Predito')
+plt.ylabel('Real')
+plt.title('Matriz de Confusão')
+plt.show()
+
+# %%
+grid_search.best_params_
+
+# %%
+y_pred_test = grid_search.predict(X_test)
+
+print(classification_report(y_test, y_pred_test))
+
+cm = confusion_matrix(y_test, y_pred_test, labels=['No', 'Yes'])
 
 sns.heatmap(cm, annot=True, fmt='d',
             xticklabels=['No', 'Yes'],
@@ -147,8 +163,4 @@ plt.ylabel('Real')
 plt.title('Matriz de Confusão')
 plt.savefig("CM.png", dpi=300, bbox_inches='tight')
 plt.show()
-
-# %%
-grid_search.best_params_
-
 # %%
