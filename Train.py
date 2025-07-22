@@ -14,6 +14,11 @@ import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_classif
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
+import mlflow
+
+# %%
+mlflow.set_tracking_uri('http://127.0.0.1:5000/')
+mlflow.set_experiment(experiment_id='832769808834908456')
 
 # %%
 DATASET_PATH = '../Data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
@@ -126,13 +131,25 @@ grid_search = GridSearchCV(imb_pipe_rf,
                            scoring=recall_yes,
                            n_jobs=-1)
 
-grid_search.fit(X_train, y_train)
+# %%
+with mlflow.start_run():
+    mlflow.sklearn.autolog()
+
+    grid_search.fit(X_train, y_train)
+
+    y_pred_val = grid_search.predict(X_val)
+
+    report = classification_report(y_val, y_pred_val, output_dict=True)
+
+    precision_yes = report['Yes']['precision']
+    recall_yes = report['Yes']['recall']
+    f1_yes = report['Yes']['f1-score']
+
+    mlflow.log_metrics({'precision_yes': precision_yes,
+                        'recall_yes': recall_yes,
+                        'f1_yes': f1_yes})
 
 # %%
-y_pred_val = grid_search.predict(X_val)
-
-print(classification_report(y_val, y_pred_val))
-
 cm = confusion_matrix(y_val, y_pred_val, labels=['No', 'Yes'])
 
 sns.heatmap(cm, annot=True, fmt='d',
