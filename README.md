@@ -46,7 +46,9 @@ Mapa de calor para analisar o churn em 4 combinações possíveis de gênero e p
 Geração de heatmap de correlação e análise das 5 maiores correlações absolutas usando o coeficiente de Pearson.
 
 ## Modelagem preditiva
-Para a etapa de modelagem, o foco foi construir um classificador que conseguisse prever com o máximo de assertividade os clientes com risco de churn. O processo foi iterativo e guiado por testes comparativos, com foco em métricas de classificação — principalmente recall, por ser mais crítico nesse problema (é mais perigoso não identificar um cliente que vai sair do que prever erroneamente que um cliente vai sair).
+Para a etapa de modelagem, o foco foi construir um classificador que conseguisse prever com o máximo de assertividade os clientes com risco de churn. O processo foi iterativo e guiado por testes comparativos, com foco em métricas de classificação, principalmente recall, por ser mais crítico nesse problema (é mais perigoso não identificar um cliente que vai sair do que prever erroneamente que um cliente vai sair).
+
+Além disso, utilizei o MLflow para monitorar os experimentos, registrar métricas, parâmetros e comparar os resultados de diferentes modelos e abordagens de forma organizada e rastreável.
 
 Testes Iniciais (Testes 1 a 4):
 - Modelos testados: Árvore de Decisão e SVC.
@@ -79,8 +81,6 @@ Modelo Final Escolhido
   - Recall: 0.73
   - F1-score: 0.62
   - Acurácia: 0.76
-
-Matriz de Confusão do Modelo Final
 
 A matriz de confusão abaixo mostra o desempenho do modelo final em classificar corretamente os clientes com e sem churn.
 
