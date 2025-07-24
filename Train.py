@@ -47,6 +47,11 @@ print(f'X_train shape: {X_train.shape}\ny_train shape: {y_train.shape}\n')
 print(f'X_test shape: {X_test.shape}\ny_test shape: {y_test.shape}\n')
 print(f'X_val shape: {X_val.shape}\ny_val shape: {y_val.shape}\n')
 
+df_test = X_test.copy()
+df_test['Churn'] = y_test
+
+df_test.to_csv('test_set.csv', index=False)
+
 # %%
 numerical_cols = ['tenure', 'MonthlyCharges', 'TotalCharges']
 categorical_cols = ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
