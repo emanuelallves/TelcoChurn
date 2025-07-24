@@ -21,12 +21,11 @@ mlflow.set_tracking_uri('http://127.0.0.1:5000/')
 mlflow.set_experiment(experiment_id='832769808834908456')
 
 # %%
-DATASET_PATH = '../Data/WA_Fn-UseC_-Telco-Customer-Churn.csv'
+DATASET_PATH = '../Data/WA_Fn-UseC_-Telco-Customer-Churn-clean.csv'
 
 # %%
 df = pd.read_csv(DATASET_PATH)
-df['TotalCharges'] = pd.to_numeric(df['TotalCharges'], errors='coerce')
-df = df.dropna()
+df.info()
 
 # %%
 features = df.drop(columns='Churn')
@@ -180,4 +179,9 @@ plt.ylabel('Real')
 plt.title('Matriz de Confusão')
 plt.savefig("CM.png", dpi=300, bbox_inches='tight')
 plt.show()
+# %%
+pd.set_option('display.max_columns', None)
+df.head()
+# %%
+df.isna().sum()
 # %%
