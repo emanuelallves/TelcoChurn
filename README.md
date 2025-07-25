@@ -12,43 +12,28 @@ Este projeto tem como objetivo analisar o comportamento dos clientes de uma empr
 - Git e GitHub
 
 ## Análise exploratória (EDA)
-Durante a EDA, foram respondidas as seguintes perguntas de negócio:
+Durante a EDA, foram respondidas perguntas de negócio como:
 
 1. Qual a proporção de clientes que deram churn?
 Análise da taxa de churn em relação ao total de clientes.
 
-2. Como é a distribuição dos gastos mensais?
-Avaliação de simetria, concentração e presença de outliers nos gastos mensais dos clientes.
-
-3. Como os métodos de pagamento estão distribuídos?
-Visualização do total de clientes por método de pagamento.
-
-4. Qual o perfil dos clientes?
-- Análise da distribuição das variáveis:
-  - Gênero
-  - Presença de parceiro
-  - Senioridade (cliente idoso ou não)
-  - Presença de dependentes
-
-5. Como os gastos mensais variam entre clientes que deram churn e os que não deram?
+2. Como os gastos mensais variam entre clientes que deram churn e os que não deram?
 Comparação da distribuição de gastos com foco em diferenças entre os grupos.
 
-6. Qual a distribuição da variável tenure entre os grupos de churn?
+3. Qual a distribuição da variável tenure entre os grupos de churn?
 Análise do tempo de permanência na empresa e sua relação com o churn.
 
-7. Como questões familiares impactam o churn?
+4. Como questões familiares impactam o churn?
 Avaliação da proporção de churn entre clientes com e sem parceiros/dependentes.
 
-8. Existe interação entre gênero e presença de parceiro no churn?
+5. Existe interação entre gênero e presença de parceiro no churn?
 Mapa de calor para analisar o churn em 4 combinações possíveis de gênero e presença de parceiro.
 
-9. Quais são as maiores correlações entre variáveis numéricas?
+6. Quais são as maiores correlações entre variáveis numéricas?
 Geração de heatmap de correlação e análise das 5 maiores correlações absolutas usando o coeficiente de Pearson.
 
 ## Modelagem preditiva
-Para a etapa de modelagem, o foco foi construir um classificador que conseguisse prever com o máximo de assertividade os clientes com risco de churn. O processo foi iterativo e guiado por testes comparativos, com foco em métricas de classificação, principalmente recall, por ser mais crítico nesse problema (é mais perigoso não identificar um cliente que vai sair do que prever erroneamente que um cliente vai sair).
-
-Além disso, utilizei o MLflow para monitorar os experimentos, registrar métricas, parâmetros e comparar os resultados de diferentes modelos e abordagens de forma organizada e rastreável.
+Para a etapa de modelagem, o foco foi construir um classificador que conseguisse prever com o máximo de assertividade os clientes com risco de churn. No o processo foi monitorado todos experimentos via MLflow, o que permitiu registrar métricas, hiperparâmetros, artefatos e comparações entre diferentes abordagens de forma organizada e rastreável.
 
 Testes Iniciais (Testes 1 a 4):
 - Modelos testados: Árvore de Decisão e SVC.
@@ -67,21 +52,23 @@ Aplicando Oversampling com SMOTE (Testes 12 a 14):
 - Para lidar com o desequilíbrio da variável alvo, utilizei o SMOTE para balancear a base.
 - Os modelos foram treinados novamente com GridSearchCV e foco em recall.
 
-Destaque final:
-- A Random Forest com SMOTE (Teste 14) atingiu o melhor equilíbrio entre recall (0.73) e f1-score (0.62), com acurácia razoável (0.76).
-- Esse modelo mostrou ser mais robusto para identificar clientes com maior risco de churn sem perder tanto em precisão.
+Modelo Final com XGBoost (Teste 15)
+Após testes com modelos clássicos, explorei a utilização do XGBoost (XGBClassifier), buscando melhorias de performance e capacidade de generalização.
 
-Modelo Final Escolhido
-- Modelo: RandomForestClassifier
-- Pré-processamento: StandardScaler + OneHotEncoder
-- Balanceamento: SMOTE aplicado na base de treino
-- Tunagem: Hiperparâmetros otimizados com GridSearchCV (com scoring='recall')
-- Métricas Finais:
-  - Precision: 0.54
-  - Recall: 0.73
-  - F1-score: 0.62
-  - Acurácia: 0.76
+Modelo: XGBClassifier
+Pré-processamento: StandardScaler + OneHotEncoder
+Balanceamento: SMOTE na base de treino
+Tunagem: GridSearchCV com otimização voltada para o recall
+Monitoramento: Executado com MLflow
+Métricas Finais:
+  - Precision: 0.50
+  - Recall: 0.76
+  - F1-score: 0.61
+  - Acurácia: 0.78
 
-A matriz de confusão abaixo mostra o desempenho do modelo final em classificar corretamente os clientes com e sem churn.
+## Interface de Previsão
+Para facilitar o uso prático do modelo, desenvolvi uma interface web com Streamlit, integrando uma API criada com FastAPI:
+
+## Matriz de confusão
 
 ![Matriz de Confusão](CM.png)
