@@ -2,9 +2,7 @@
 
 Este projeto tem como objetivo analisar o comportamento dos clientes de uma empresa de telecomunicações e criar uma interface para prever em lote quais deles têm maior propensão a cancelar os serviços contratados (churn).
 
-Aqui você pode ver o vídeo da interface em funcionamento:
-
-[Vídeo](https://www.linkedin.com/posts/joao-emanuel-7bb2981a4_fiz-algumas-atualiza%C3%A7%C3%B5es-no-meu-%C3%BAltimo-projeto-activity-7354516204541116417-wbsV?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC-9a38B_ih9uTXawvKzjklse66Jn0wYGio)
+Aqui você pode ver o vídeo da interface em funcionamento no meu linkedin: [Vídeo](https://www.linkedin.com/posts/joao-emanuel-7bb2981a4_fiz-algumas-atualiza%C3%A7%C3%B5es-no-meu-%C3%BAltimo-projeto-activity-7354516204541116417-wbsV?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC-9a38B_ih9uTXawvKzjklse66Jn0wYGio)
 
 ## Sobre o Projeto
 - Objetivo: Desenvolver uma análise exploratória aprofundada e construir um modelo preditivo para identificar clientes com maior probabilidade de churn.
