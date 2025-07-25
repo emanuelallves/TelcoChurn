@@ -14,6 +14,8 @@ import seaborn as sns
 from sklearn.feature_selection import SelectKBest, f_classif
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline as ImbPipeline
+import xgboost as xgb
+from xgboost import XGBClassifier
 import mlflow
 
 # %%
@@ -25,6 +27,8 @@ DATASET_PATH = '../Data/WA_Fn-UseC_-Telco-Customer-Churn-clean.csv'
 
 # %%
 df = pd.read_csv(DATASET_PATH)
+df['Churn'] = df['Churn'].map({'Yes': 1,
+                               'No': 0})
 df.info()
 
 # %%
@@ -68,21 +72,6 @@ preprocessor = ColumnTransformer(
     ]
 )
 
-pipe_tree = Pipeline([
-    ('preprocessing', preprocessor),
-    ('model', DecisionTreeClassifier(random_state=42))
-])
-
-pipe_rf = Pipeline([
-    ('preprocessing', preprocessor),
-    ('model', RandomForestClassifier(random_state=42))
-])
-
-pipe_svc = Pipeline([
-    ('preprocessing', preprocessor),
-    ('model', SVC(random_state=42))
-])
-
 # %%
 smote = SMOTE(random_state=42)
 
@@ -102,6 +91,12 @@ imb_pipe_svc = ImbPipeline([
     ('preprocessing', preprocessor),
     ('smote', smote),
     ('model', SVC(random_state=42))
+])
+
+imb_pipe_xgb = ImbPipeline([
+    ('preprocessing', preprocessor),
+    ('smote', smote),
+    ('model', XGBClassifier(random_state=42))
 ])
 
 # %%
@@ -127,10 +122,20 @@ param_grid_rf = {
     'model__max_features': ['sqrt', 'log2']
 }
 
+param_grid_xgb = {
+    'model__n_estimators': [100, 150, 200, 300],
+    'model__max_depth': [3, 6, 10],
+    'model__learning_rate': [0.01, 0.1, 0.2],
+    'model__subsample': [0.6, 0.8, 1],
+    'model__colsample_bytree': [0.8, 1],
+    'model__gamma': [0, 1, 5],
+    'model__scale_pos_weight': [1, 2, 5]
+}
+
 recall_yes = make_scorer(recall_score, pos_label='Yes')
 
-grid_search = GridSearchCV(imb_pipe_rf,
-                           param_grid_rf,
+grid_search = GridSearchCV(imb_pipe_xgb,
+                           param_grid_xgb,
                            cv=5,
                            scoring=recall_yes,
                            n_jobs=-1)
@@ -145,9 +150,9 @@ with mlflow.start_run():
 
     report = classification_report(y_val, y_pred_val, output_dict=True)
 
-    precision_yes = report['Yes']['precision']
-    recall_yes = report['Yes']['recall']
-    f1_yes = report['Yes']['f1-score']
+    precision_yes = report['1']['precision']
+    recall_yes = report['1']['recall']
+    f1_yes = report['1']['f1-score']
 
     mlflow.log_metrics({'precision_yes': precision_yes,
                         'recall_yes': recall_yes,
@@ -173,7 +178,7 @@ y_pred_test = grid_search.predict(X_test)
 
 print(classification_report(y_test, y_pred_test))
 
-cm = confusion_matrix(y_test, y_pred_test, labels=['No', 'Yes'])
+cm = confusion_matrix(y_test, y_pred_test)
 
 sns.heatmap(cm, annot=True, fmt='d',
             xticklabels=['No', 'Yes'],
@@ -185,8 +190,4 @@ plt.title('Matriz de Confusão')
 plt.savefig("CM.png", dpi=300, bbox_inches='tight')
 plt.show()
 # %%
-pd.set_option('display.max_columns', None)
-df.head()
-# %%
-df.isna().sum()
-# %%
+
