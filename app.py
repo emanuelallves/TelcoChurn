@@ -5,7 +5,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.title("Classificador de Churn em lote (CSV)")
+st.title("Classificador de Churn em lote")
 
 uploaded_file = st.file_uploader("Carregue um arquivo CSV com os dados dos clientes", type=["csv"])
 
@@ -39,7 +39,7 @@ if uploaded_file:
                 y_true = df["Churn"]
                 y_pred = df["Prediction"]
 
-                cm = confusion_matrix(y_true, y_pred, labels=["No", "Yes"])
+                cm = confusion_matrix(y_true, y_pred)
                 fig, ax = plt.subplots()
                 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                             xticklabels=["No", "Yes"],
